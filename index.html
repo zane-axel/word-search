@@ -34,7 +34,7 @@
 
         textarea.addEventListener('input', function() {
             const lines = textarea.value.split('\n');
-            const filteredLines = lines.filter(line => line.length <= 14 && line.trim() !== '');
+            const filteredLines = lines.filter(line => line.length <= 13 && line.trim() !== '');
             textarea.value = filteredLines.join('\n');
 
             // Display the total number of text lines left
