@@ -33,14 +33,14 @@
         const outputResult = document.getElementById('outputResult');
 
         textarea.addEventListener('input', function() {
-            const lines = textarea.value.split('\n');
+            let lines = textarea.value.split('\n');
             let filteredLines = lines.map(line => line.replace(/^\s*\d+\.\s*/, '')) // Remove bullet points
                                      .filter(line => line.length <= 13 && line.trim() !== ''); // Filter by length and remove empty lines
-            textarea.value = filteredLines.join('\n');
 
             // Limit output to a maximum of 20 lines
             if (filteredLines.length > 20) {
                 filteredLines = filteredLines.slice(0, 20);
+                textarea.value = filteredLines.join('\n');
             }
 
             // Display the total number of text lines left
