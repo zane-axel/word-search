@@ -1,8 +1,6 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <script src="script.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Word Search Filter</title>
@@ -14,36 +12,38 @@
         <h1>Word Search Filter</h1>
         <form id="myForm">
             <div id="input-fields">
-             <textarea id="inputTextarea" name="inputField1" rows="8" cols="30" placeholder="Enter your text here"></textarea>
+                <textarea id="inputTextarea" name="inputField1" rows="8" cols="30" placeholder="Enter your text here"></textarea>
             </div>
 
-             <div>
-            <button type="submit" id="submitButton" class="submit-button">Submit</button>
+            <div>
+                <button type="button" id="submitButton" class="submit-button">Submit</button>
             </div>
         </form>
     </div>
 
-    <script src="script.js">
+    <div id="successMessage" class="success-message" style="display: none;">Input processed successfully!</div>
+
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
-    const textarea = document.getElementById('inputTextarea');
-    const submitButton = document.getElementById('submitButton');
-    const successMessage = document.getElementById('successMessage');
+            const textarea = document.getElementById('inputTextarea');
+            const submitButton = document.getElementById('submitButton');
+            const successMessage = document.getElementById('successMessage');
 
-    textarea.addEventListener('input', function() {
-        const lines = textarea.value.split('\n');
-        const filteredLines = lines.filter(line => line.length <= 15);
-        textarea.value = filteredLines.join('\n');
-    });
+            textarea.addEventListener('input', function() {
+                const lines = textarea.value.split('\n');
+                const filteredLines = lines.filter(line => line.length <= 15);
+                textarea.value = filteredLines.join('\n');
+            });
 
-    submitButton.addEventListener('click', function(event) {
-        event.preventDefault();
-        // Additional processing if needed
-        successMessage.style.display = 'block';
-        setTimeout(function() {
-            successMessage.style.display = 'none';
-        }, 3000); // Hide the success message after 3 seconds
-    });
-});
+            submitButton.addEventListener('click', function(event) {
+                event.preventDefault();
+                // Additional processing if needed
+                successMessage.style.display = 'block';
+                setTimeout(function() {
+                    successMessage.style.display = 'none';
+                }, 3000); // Hide the success message after 3 seconds
+            });
+        });
     </script>
 </body>
 
