@@ -28,6 +28,7 @@
             <button type="button" id="pasteButton" class="submit-button">Paste</button>
             <button type="button" id="copyButton" class="submit-button">Copy</button>
             <div id="outputResult"></div>
+            <div id="savedOutput"></div> <!-- New div for displaying saved output -->
         </form>
     </div>
 
@@ -37,8 +38,15 @@
             const pasteButton = document.getElementById('pasteButton');
             const copyButton = document.getElementById('copyButton');
             const outputResult = document.getElementById('outputResult');
+            const savedOutput = document.getElementById('savedOutput');
             const toggleSwitch = document.getElementById('toggleSwitch');
             const track = document.querySelector('.track');
+
+            // Retrieve and display output data from local storage on page load
+            const savedOutputText = localStorage.getItem('outputText');
+            if (savedOutputText) {
+                savedOutput.textContent = `Saved Output: ${savedOutputText}`;
+            }
 
             toggleSwitch.addEventListener('change', function() {
                 if (this.checked) {
@@ -46,6 +54,19 @@
                 } else {
                     track.style.backgroundColor = 'gray';
                 }
+
+                // Save the toggle state to local storage
+                localStorage.setItem('toggleState', this.checked);
+            });
+
+            // Retrieve the toggle state from local storage and set it
+            const savedToggleState = localStorage.getItem('toggleState');
+            if (savedToggleState === 'true') {
+                toggleSwitch.checked = true;
+                track.style.backgroundColor = '#4bb543';
+            } else {
+                toggleSwitch.checked = false;
+                track.style.backgroundColor = 'gray';
             });
 
             pasteButton.addEventListener('click', function() {
@@ -82,13 +103,6 @@
 
                 outputResult.textContent = `Total lines: ${filteredLines.length}`;
             });
-
-            // Retrieve and display output data from local storage
-            const savedOutput = localStorage.getItem('outputText');
-            if (savedOutput) {
-                textarea.value = savedOutput;
-                textarea.dispatchEvent(new Event('input'));
-            }
         });
     </script>
 </body>
