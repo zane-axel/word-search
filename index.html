@@ -15,7 +15,7 @@
                 <textarea id="inputTextarea" name="inputField1" rows="8" cols="30" placeholder="Enter your text here"></textarea>
             </div>            
             <button type="button" id="pasteButton" class="submit-button">Paste</button>
-           
+           <button type="button" id="copyButton" class="submit-button">Copy</button>
             <div id="outputResult"></div>
         </form>
     </div>
@@ -25,6 +25,7 @@
         const textarea = document.getElementById('inputTextarea');
         const submitButton = document.getElementById('submitButton');
         const pasteButton = document.getElementById('pasteButton');
+        const copyButton = document.getElementById('copyButton');
         const successMessage = document.getElementById('successMessage');
         const outputResult = document.getElementById('outputResult');
 
@@ -40,10 +41,21 @@
                 });
         });
 
+        copyButton.addEventListener('click', function() {
+            const outputText = outputResult.textContent;
+            navigator.clipboard.writeText(outputText)
+                .then(() => {
+                    console.log('Output copied to clipboard:', outputText);
+                })
+                .catch(err => {
+                    console.error('Failed to copy output to clipboard: ', err);
+                });
+        });
+
         textarea.addEventListener('input', function() {
             let lines = textarea.value.split('\n');
             let filteredLines = lines.map(line => line.replace(/^\s*\d+\.\s*/, '')) // Remove bullet points
-                                     .filter(line => line.length <= 13 && line.trim() !== '' && /^[a-zA-Z\s]*$/.test(line)); // Filter by length, remove empty lines, and special characters
+                                     .filter(line => line.length <= 15 && line.trim() !== '' && /^[a-zA-Z\s]*$/.test(line)); // Filter by length, remove empty lines, and special characters
             // Convert lines to uppercase
             filteredLines = filteredLines.map(line => line.toUpperCase());
 
