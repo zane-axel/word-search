@@ -9,6 +9,26 @@
 <body>
     <div class="container">
         <h1>Words List</h1>
+        <h1>Page 1</h1>
+        <div id="outputText"></div>
+        <button onclick="copyToClipboard()">Copy Text</button>
     </div>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const outputTextDiv = document.getElementById('outputText');
+            const savedText = localStorage.getItem('outputText');
+            if (savedText) {
+                outputTextDiv.textContent = savedText;
+            }
+        });
+
+        function copyToClipboard() {
+            const textToCopy = document.getElementById('outputText').textContent;
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => alert('Text copied to clipboard'))
+                .catch(err => console.error('Could not copy text: ', err));
+        }
+</script>
 </body>
 </html>
