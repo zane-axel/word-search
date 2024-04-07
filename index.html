@@ -42,7 +42,7 @@
             const toggleSwitch = document.getElementById('toggleSwitch');
             const track = document.querySelector('.track');
 
-            // Retrieve and display output data from local storage on page load
+            // Retrieve and display saved output from local storage on page load
             const savedOutputText = localStorage.getItem('outputText');
             if (savedOutputText) {
                 savedOutput.textContent = `Saved Output: ${savedOutputText}`;
