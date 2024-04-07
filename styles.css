@@ -43,7 +43,7 @@ body {
     background-size: cover;
     background-color: #808080; /* Adjust color as needed */
     border: 1px solid #000; /* Adjust border color as needed */
-    border-radius: 20%; /* Make corners round */
+    border-radius: 10%; /* Make corners round */
 }
 
 .form-group {
