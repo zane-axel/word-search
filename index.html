@@ -14,8 +14,8 @@
     <div class="icon"></div>
       </a>
         <div class="toggle-switch">
-        <input type="checkbox" id="toggle">
-        <label for="toggle" class="toggle-label">
+        <input type="checkbox" id="toggleSwitch">
+        <label for="toggleSwitch" class="toggle-label">
             <div class="track"></div>
             <div class="ball"></div>
         </label>
@@ -37,10 +37,17 @@
         const pasteButton = document.getElementById('pasteButton');
         const copyButton = document.getElementById('copyButton');
         const outputResult = document.getElementById('outputResult');
-        const toggleSwitch = document.getElementById('toggle');
+        const toggleSwitch = document.getElementById('toggleSwitch');
         const track = document.querySelector('.track');
 
     toggleSwitch.addEventListener('change', function() {
+        if (this.checked) {
+                const outputText = processInput(inputTextarea.value);
+                localStorage.setItem('outputText', outputText);
+            } else {
+                localStorage.removeItem('outputText');
+        }
+        
         if (this.checked) {
             track.style.backgroundColor = '#4bb543';
         } else {
