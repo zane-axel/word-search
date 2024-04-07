@@ -34,11 +34,11 @@ body {
 
 .icon {
     position: absolute;
-    top: 0;
+    top: 10px;
     left: 50%;
     transform: translateX(-50%);
-    width: 30px; /* Adjust size as needed */
-    height: 30px; /* Adjust size as needed */
+    width: 35px; /* Adjust size as needed */
+    height: 35px; /* Adjust size as needed */
     background-color: #fff; /* Adjust color as needed */
     border: 1px solid #000; /* Adjust border color as needed */
 }
