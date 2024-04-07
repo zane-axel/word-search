@@ -39,9 +39,9 @@ body {
     transform: translateX(-50%);
     width: 60px; /* Adjust size as needed */
     height: 35px; /* Adjust size as needed */
-    background-image: url('https://i.ibb.co/cgCWXMP/20240407-172526-773.png'); /* URL to your image */
+    background-image: url(''); /* URL to your image */
     background-size: cover;
-    background-color: #fff; /* Adjust color as needed */
+    background-color: #808080; /* Adjust color as needed */
     border: 1px solid #000; /* Adjust border color as needed */
 }
 
