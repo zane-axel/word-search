@@ -1,36 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Page</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div class="container">
-        <h1>Page 1</h1>
-        <div id="outputText"></div>
-        <button onclick="copyToClipboard()">Copy Text</button>
+        <h1>Data Page</h1>
+        <div id="displayData"></div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Retrieve data from local storage
-            const savedText = localStorage.getItem('outputText');
-
-            // Update the content of the outputText div with the retrieved data
-            const outputTextDiv = document.getElementById('outputText');
-            if (savedText) {
-                outputTextDiv.textContent = savedText;
-            }
-        });
-
-        function copyToClipboard() {
-            const textToCopy = document.getElementById('outputText').textContent;
-            navigator.clipboard.writeText(textToCopy)
-                .then(() => alert('Text copied to clipboard'))
-                .catch(err => console.error('Could not copy text: ', err));
+        // Retrieve data from localStorage and display it
+        const storedData = JSON.parse(localStorage.getItem("formData"));
+        if (storedData) {
+            const displayDataElement = document.getElementById("displayData");
+            const outputText = storedData.outputText;
+            displayDataElement.textContent = outputText;
         }
     </script>
 </body>
+
 </html>
