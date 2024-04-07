@@ -42,11 +42,8 @@
 
             toggleSwitch.addEventListener('change', function() {
                 if (this.checked) {
-                    const outputText = processInput(inputTextarea.value);
-                    localStorage.setItem('outputText', outputText);
                     track.style.backgroundColor = '#4bb543';
                 } else {
-                    localStorage.removeItem('outputText');
                     track.style.backgroundColor = 'gray';
                 }
             });
@@ -76,18 +73,23 @@
 
                 if (filteredLines.length > 20) {
                     filteredLines = filteredLines.slice(0, 20);
-                    textarea.value = filteredLines.join('\n');
-                } else {
-                    textarea.value = filteredLines.join('\n');
                 }
+
+                textarea.value = filteredLines.join('\n');
+
+                // Save the output data to local storage
+                localStorage.setItem('outputText', textarea.value);
 
                 outputResult.textContent = `Total lines: ${filteredLines.length}`;
             });
-        });
 
-        function processInput(input) {
-            return input.toUpperCase();
-        }
+            // Retrieve and display output data from local storage
+            const savedOutput = localStorage.getItem('outputText');
+            if (savedOutput) {
+                textarea.value = savedOutput;
+                textarea.dispatchEvent(new Event('input'));
+            }
+        });
     </script>
 </body>
 
