@@ -37,6 +37,16 @@
         const pasteButton = document.getElementById('pasteButton');
         const copyButton = document.getElementById('copyButton');
         const outputResult = document.getElementById('outputResult');
+        const toggleSwitch = document.getElementById('toggle');
+        const track = document.querySelector('.track');
+
+    toggleSwitch.addEventListener('change', function() {
+        if (this.checked) {
+            track.style.backgroundColor = 'green';
+        } else {
+            track.style.backgroundColor = 'gray';
+        }
+    });
 
         pasteButton.addEventListener('click', function() {
             navigator.clipboard.readText()
