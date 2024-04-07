@@ -1,24 +1,24 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Search</title>
+    <title>Word Search Filter</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <div class="container">
-        <a href="words.html" class="icon-link">
-            <div class="icon"></div>
-        </a>
+        
+      <a href="words.html" class="icon-link">
+    <div class="icon"></div>
+      </a>
         <div class="toggle-switch">
-            <input type="checkbox" id="toggleSwitch">
-            <label for="toggleSwitch" class="toggle-label">
-                <div class="track"></div>
-                <div class="ball"></div>
-            </label>
+        <input type="checkbox" id="toggleSwitch">
+        <label for="toggleSwitch" class="toggle-label">
+            <div class="track"></div>
+            <div class="ball"></div>
+        </label>
         </div>
         <h1>Word Search Filter</h1>
         <form id="myForm">
@@ -26,85 +26,81 @@
                 <textarea id="inputTextarea" name="inputField1" rows="8" cols="30" placeholder="Enter your text here"></textarea>
             </div>
             <button type="button" id="pasteButton" class="submit-button">Paste</button>
-            <button type="button" id="copyButton" class="submit-button">Copy</button>
+           <button type="button" id="copyButton" class="submit-button">Copy</button>
             <div id="outputResult"></div>
-            <div id="savedOutput"></div> <!-- New div for displaying saved output -->
         </form>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const textarea = document.getElementById('inputTextarea');
-            const pasteButton = document.getElementById('pasteButton');
-            const copyButton = document.getElementById('copyButton');
-            const outputResult = document.getElementById('outputResult');
-            const savedOutput = document.getElementById('savedOutput');
-            const toggleSwitch = document.getElementById('toggleSwitch');
-            const track = document.querySelector('.track');
+    document.addEventListener('DOMContentLoaded', function() {
+        const textarea = document.getElementById('inputTextarea');
+        const pasteButton = document.getElementById('pasteButton');
+        const copyButton = document.getElementById('copyButton');
+        const outputResult = document.getElementById('outputResult');
+        const toggleSwitch = document.getElementById('toggleSwitch');
+        const track = document.querySelector('.track');
 
-            // Retrieve and display saved output from local storage on page load
-            const savedOutputText = localStorage.getItem('outputText');
-            if (savedOutputText) {
-                savedOutput.textContent = `Saved Output: ${savedOutputText}`;
+    toggleSwitch.addEventListener('change', function() {
+        if (this.checked) {
+                const outputText = processInput(inputTextarea.value);
+                localStorage.setItem('outputText', outputText);
+            } else {
+                localStorage.removeItem('outputText');
+        }
+        
+        if (this.checked) {
+            track.style.backgroundColor = '#4bb543';
+        } else {
+            track.style.backgroundColor = 'gray';
+        }
+    });
+
+        pasteButton.addEventListener('click', function() {
+            navigator.clipboard.readText()
+                .then(text => {
+                    textarea.value = text;
+                    // Trigger the input event manually
+                    textarea.dispatchEvent(new Event('input'));
+                })
+                .catch(err => {
+                    console.error('Failed to read clipboard contents: ', err);
+                });
+        });
+
+        copyButton.addEventListener('click', function() {
+            textarea.select();
+            document.execCommand('copy');
+            console.log('Output copied to clipboard:', textarea.value);
+        });
+
+        textarea.addEventListener('input', function() {
+            let lines = textarea.value.split('\n');
+            let filteredLines = lines.map(line => line.replace(/^\s*\d+\.\s*/, '')) // Remove bullet points
+                                     .filter(line => line.length <= 13 && line.trim() !== '' && /^[a-zA-Z\s]*$/.test(line)); // Filter by length, remove empty lines, and special characters
+            // Convert lines to uppercase
+            filteredLines = filteredLines.map(line => line.toUpperCase());
+
+            // Limit output to a maximum of 20 lines
+            if (filteredLines.length > 20) {
+                filteredLines = filteredLines.slice(0, 20);
+                textarea.value = filteredLines.join('\n');
+            } else {
+                textarea.value = filteredLines.join('\n');
             }
 
-            toggleSwitch.addEventListener('change', function() {
-                if (this.checked) {
-                    track.style.backgroundColor = '#4bb543';
-                } else {
-                    track.style.backgroundColor = 'gray';
-                }
-
-                // Save the toggle state to local storage
-                localStorage.setItem('toggleState', this.checked);
-            });
-
-            // Retrieve the toggle state from local storage and set it
-            const savedToggleState = localStorage.getItem('toggleState');
-            if (savedToggleState === 'true') {
-                toggleSwitch.checked = true;
-                track.style.backgroundColor = '#4bb543';
-            } else {
-                toggleSwitch.checked = false;
-                track.style.backgroundColor = 'gray';
-            });
-
-            pasteButton.addEventListener('click', function() {
-                navigator.clipboard.readText()
-                    .then(text => {
-                        textarea.value = text;
-                        textarea.dispatchEvent(new Event('input'));
-                    })
-                    .catch(err => {
-                        console.error('Failed to read clipboard contents: ', err);
-                    });
-            });
-
-            copyButton.addEventListener('click', function() {
-                textarea.select();
-                document.execCommand('copy');
-                console.log('Output copied to clipboard:', textarea.value);
-            });
-
-            textarea.addEventListener('input', function() {
-                let lines = textarea.value.split('\n');
-                let filteredLines = lines.map(line => line.replace(/^\s*\d+\.\s*/, ''))
-                    .filter(line => line.length <= 13 && line.trim() !== '' && /^[a-zA-Z\s]*$/.test(line));
-                filteredLines = filteredLines.map(line => line.toUpperCase());
-
-                if (filteredLines.length > 20) {
-                    filteredLines = filteredLines.slice(0, 20);
-                }
-
-                textarea.value = filteredLines.join('\n');
-
-                // Save the output data to local storage
-                const outputData = { outputText: textarea.value }; // Storing output data as an object
-                localStorage.setItem('formData', JSON.stringify(outputData));
-
-                outputResult.textContent = `Total lines: ${filteredLines.length}`;
-            });
+            // Display the total number of text lines left
+            outputResult.textContent = `Total lines: ${filteredLines.length}`;
         });
+
+        submitButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            // Additional processing if needed
+            successMessage.style.display = 'block';
+            setTimeout(function() {
+                successMessage.style.display = 'none';
+            }, 3000); // Hide the success message after 3 seconds
+        });
+    });
     </script>
 </body>
 
