@@ -42,20 +42,15 @@
         });
 
         copyButton.addEventListener('click', function() {
-            const outputText = outputResult.textContent;
-            navigator.clipboard.writeText(outputText)
-                .then(() => {
-                    console.log('Output copied to clipboard:', outputText);
-                })
-                .catch(err => {
-                    console.error('Failed to copy output to clipboard: ', err);
-                });
+            textarea.select();
+            document.execCommand('copy');
+            console.log('Output copied to clipboard:', textarea.value);
         });
 
         textarea.addEventListener('input', function() {
             let lines = textarea.value.split('\n');
             let filteredLines = lines.map(line => line.replace(/^\s*\d+\.\s*/, '')) // Remove bullet points
-                                     .filter(line => line.length <= 15 && line.trim() !== '' && /^[a-zA-Z\s]*$/.test(line)); // Filter by length, remove empty lines, and special characters
+                                     .filter(line => line.length <= 13 && line.trim() !== '' && /^[a-zA-Z\s]*$/.test(line)); // Filter by length, remove empty lines, and special characters
             // Convert lines to uppercase
             filteredLines = filteredLines.map(line => line.toUpperCase());
 
