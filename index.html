@@ -14,12 +14,21 @@
             <div id="input-fields">
                 <textarea id="inputTextarea" name="inputField1" rows="8" cols="30" placeholder="Enter your text here"></textarea>
             </div>
-           <button type="button" id="enableButton" class="enable-button">Enable</button>
-            <button type="button" id="disableButton" class="disable-button" style="display: none;">Disable</button>
             <button type="button" id="pasteButton" class="submit-button">Paste</button>
            <button type="button" id="copyButton" class="submit-button">Copy</button>
             <div id="outputResult"></div>
         </form>
+        
+        <div class="container">
+    <div class="toggle-switch">
+        <input type="checkbox" id="toggle">
+        <label for="toggle" class="toggle-label">
+            <div class="track"></div>
+            <div class="ball"></div>
+        </label>
+    </div>
+</div>
+
     </div>
 
     <script>
