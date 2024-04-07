@@ -39,14 +39,14 @@ body {
     transform: translateX(-50%);
     width: 60px; /* Adjust size as needed */
     height: 35px; /* Adjust size as needed */
-    background-image: url(''); /* URL to your image */
+    background-image: url('https://i.ibb.co/0BQ9sWz/Logopit-1712493713600.jpg'); /* URL to your image */
     background-size: cover;
-    background-color: #808080; /* Adjust color as needed */
+    background-color: #fff; /* Adjust color as needed */
     border: 1px solid #000; /* Adjust border color as needed */
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .form-group {
