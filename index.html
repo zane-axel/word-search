@@ -99,7 +99,8 @@
                 textarea.value = filteredLines.join('\n');
 
                 // Save the output data to local storage
-                localStorage.setItem('outputText', textarea.value);
+                const outputData = { outputText: textarea.value }; // Storing output data as an object
+                localStorage.setItem('formData', JSON.stringify(outputData));
 
                 outputResult.textContent = `Total lines: ${filteredLines.length}`;
             });
