@@ -35,11 +35,15 @@
         textarea.addEventListener('input', function() {
             let lines = textarea.value.split('\n');
             let filteredLines = lines.map(line => line.replace(/^\s*\d+\.\s*/, '')) // Remove bullet points
-                                     .filter(line => line.length <= 13 && line.trim() !== ''); // Filter by length and remove empty lines
+                                     .filter(line => line.length <= 13 && line.trim() !== '' && /^[a-zA-Z\s]*$/.test(line)); // Filter by length, remove empty lines, and special characters
+            // Convert lines to uppercase
+            filteredLines = filteredLines.map(line => line.toUpperCase());
 
             // Limit output to a maximum of 20 lines
             if (filteredLines.length > 20) {
                 filteredLines = filteredLines.slice(0, 20);
+                textarea.value = filteredLines.join('\n');
+            } else {
                 textarea.value = filteredLines.join('\n');
             }
 
