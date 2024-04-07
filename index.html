@@ -19,13 +19,9 @@
         </form>
     </div>
 
-    <div id="successMessage" class="success-message" style="display: none;">Input processed successfully!</div>
-
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const textarea = document.getElementById('inputTextarea');
-        const submitButton = document.getElementById('submitButton');
-        const successMessage = document.getElementById('successMessage');
         const outputResult = document.getElementById('outputResult');
 
         textarea.addEventListener('input', function() {
