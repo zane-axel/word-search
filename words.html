@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Words List</title>
+    <title>Data Page</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Words List</h1>
         <h1>Page 1</h1>
         <div id="outputText"></div>
         <button onclick="copyToClipboard()">Copy Text</button>
     </div>
 
-<script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const outputTextDiv = document.getElementById('outputText');
+            // Retrieve data from local storage
             const savedText = localStorage.getItem('outputText');
+
+            // Update the content of the outputText div with the retrieved data
+            const outputTextDiv = document.getElementById('outputText');
             if (savedText) {
                 outputTextDiv.textContent = savedText;
             }
@@ -29,6 +31,6 @@
                 .then(() => alert('Text copied to clipboard'))
                 .catch(err => console.error('Could not copy text: ', err));
         }
-</script>
+    </script>
 </body>
 </html>
