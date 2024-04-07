@@ -112,10 +112,10 @@ body {
     transition: left 0.3s ease;
 }
 
-input[type="checkbox"]:checked + .toggle-label .track {
+.toggle-switch input[type="checkbox"]:checked + .toggle-label .track {
     background-color: #28a745; /* Change color to success green when checked */
 }
 
-input[type="checkbox"]:checked + .toggle-label .ball {
+.toggle-switch input[type="checkbox"]:checked + .toggle-label .ball {
     left: calc(100% - 30px);
 }
