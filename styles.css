@@ -103,9 +103,10 @@ body {
 .ball {
     position: absolute;
     top: 0;
-    left: calc(100% - 20px); /* Adjust width */
-    width: 20px;
-    height: 20px;
+    left: 100%; /* Set left position to 100% */
+    transform: translateX(-100%); /* Move the ball back by its own width */
+    width: 20px; /* Adjust width */
+    height: 20px; /* Adjust height */
     border-radius: 50%;
     background-color: white;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
