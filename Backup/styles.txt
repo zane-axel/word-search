@@ -1,0 +1,157 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(45deg, #0044cc, #0099ff, #6dd5ed, #0099ff, #0044cc);
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+    overflow: hidden;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    color: black;
+    position: relative;
+    z-index: 1;
+}
+
+#entriesContainer {
+            max-height: 550px; /* Adjust the maximum height as needed */
+            overflow-y: auto; /* Enable vertical scrollbar when content exceeds container height */
+}
+
+.entryContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.pageLabel {
+    margin-right: 10px;
+}
+
+.copyButtonContainer {
+    margin-left: 10px;
+}
+
+.icon {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px; /* Adjust size as needed */
+    height: 35px; /* Adjust size as needed */
+    background-image: url('https://i.ibb.co/0BQ9sWz/Logopit-1712493713600.jpg'); /* URL to your image */
+    background-size: cover;
+    background-color: #fff; /* Adjust color as needed */
+    border: 1px solid #000; /* Adjust border color as needed */
+    border-radius: 5px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.label {
+    margin-right: 10px;
+}
+
+.input-box {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.submit-button {
+    background-color: cyan;
+    color: black;
+    border: 2px solid white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    margin-left: 10px; /* Add margin to the left */
+}
+
+.submit-button:hover {
+    background-color: white;
+    color: cyan;
+}
+
+.toggle-switch {
+    position: relative;
+    width: 40px;
+    height: 20px;
+    margin-top: 20px;
+}
+
+.toggle-switch input[type="checkbox"] {
+    display: none;
+}
+
+.toggle-label {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    background-color: gray;
+    cursor: pointer;
+}
+
+.track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    background-color: gray; /* Change default color to gray */
+    transition: background-color 0.3s ease;
+}
+
+.ball {
+    position: absolute;
+    top: 0;
+    left: 0; /* Set left position to 0 */
+    width: 20px; /* Adjust width */
+    height: 20px; /* Adjust height */
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    transition: left 0.3s ease;
+}
+
+.toggle-switch input[type="checkbox"]:checked + .toggle-label .track {
+    background-color: #28a745; /* Change color to success green when checked */
+}
+
+
+.toggle-switch input[type="checkbox"]:checked + .toggle-label .ball {
+    left: calc(100% - 20px); /* Move the ball to the right edge */
+}
