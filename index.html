@@ -119,9 +119,29 @@
         textarea.select();
         document.execCommand('copy');
         const outputText = textarea.value.trim(); // Trim whitespace
+        
+        // Count number of lines
+        const numLines = outputText.split('\n').filter(line => line.trim() !== '').length;
+
+        if (numLines < 20) { // Check if number of lines is less than 20
+            console.log('Output has less than 20 lines. Not saved to local storage.');
+            // Display red error message
+            const errorMessage = document.createElement('div');
+            errorMessage.textContent = 'Error: Output must have at least 20 lines.';
+            errorMessage.style.color = 'red';
+            container.insertBefore(errorMessage, pasteButton); // Insert error message before paste button
+            return; // Exit function without saving
+        } else {
+            // Remove any existing error message
+            const existingErrorMessage = container.querySelector('.error-message');
+            if (existingErrorMessage) {
+                existingErrorMessage.remove();
+            }
+        }
+
         if (outputText !== '') { // Check if output text is not empty
             saveOutputToLocalStorage(outputText);
-            console.log('Output copied to clipboard:', outputText);
+            console.log('Output copied to clipboard and saved to local storage:', outputText);
         } else {
             console.log('Output is empty. Not saved to local storage.');
         }
