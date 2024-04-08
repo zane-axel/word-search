@@ -49,6 +49,21 @@
             const appendSwitch = document.getElementById('appendSwitch');
             const wordEntries = document.getElementById('wordEntries');
             const track = document.querySelector('.track');
+            const appendSwitchState = localStorage.getItem('appendSwitchState');
+
+            if (appendSwitchState === 'on') {
+             appendSwitch.checked = true;
+              } else {
+             appendSwitch.checked = false;
+              }
+
+              appendSwitch.addEventListener('change', function () {
+              if (this.checked) {
+            localStorage.setItem('appendSwitchState', 'on');
+             } else {
+            localStorage.setItem('appendSwitchState', 'off');
+              }
+            });
 
             function clearOutputEntries() {
                 const keysToRemove = [];
