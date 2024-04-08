@@ -113,10 +113,14 @@
             if (numLines < 20) { // Check if number of lines is less than 20
                 console.log('Output has less than 20 lines. Not saved to local storage.');
                 // Display red error message
-                const errorMessage = document.createElement('div');
-                errorMessage.textContent = 'Error: Output must have at least 20 lines.';
-                container.insertBefore(errorMessage, pasteButton.nextSibling); // Insert error message after paste button
-                return; // Exit function without saving
+                // Display red error message
+            const errorMessage = document.createElement('div');
+            errorMessage.textContent = 'Error: Output must have at least 20 lines.';
+            errorMessage.style.color = 'red';
+            errorMessage.classList.add('error-message');
+            const inputFields = document.getElementById('input-fields');
+           inputFields.appendChild(errorMessage);
+           return; // Exit function without saving
             } else {
                 // Remove any existing error message
                 const existingErrorMessage = container.querySelector('.error-message');
