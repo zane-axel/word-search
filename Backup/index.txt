@@ -106,6 +106,26 @@
             textarea.select();
             document.execCommand('copy');
             const outputText = textarea.value.trim(); // Trim whitespace
+
+        // Check if outputText already exists in local storage
+        const existingOutput = Object.values(localStorage).find(value => value === outputText);
+        if (existingOutput) {
+            console.log('Duplicate output found. Not saved to local storage.');
+            // Display red error message
+            const errorMessage = document.createElement('div');
+            errorMessage.textContent = 'Error: Duplicate output. Not saved to local storage.';
+            errorMessage.style.color = 'red';
+            errorMessage.classList.add('error-message');
+
+            const existingErrorMessage = container.querySelector('.error-message');
+            if (existingErrorMessage) {
+                existingErrorMessage.remove();
+            }
+
+            const inputFields = document.getElementById('input-fields');
+            inputFields.appendChild(errorMessage);
+            return; // Exit function without saving
+        }
             
             // Count number of lines
             const numLines = outputText.split('\n').filter(line => line.trim() !== '').length;
