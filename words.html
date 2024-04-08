@@ -30,6 +30,7 @@
                     if (appendText && outputText) {
                         const copyButton = document.createElement('button');
                         copyButton.textContent = 'Copy';
+                        copyButton.classList.add('submit-button'); // Add class to the copy button
                         copyButton.addEventListener('click', function () {
                             const combinedText = `${outputText}\n\n${appendText}`;
                             navigator.clipboard.writeText(combinedText)
@@ -45,6 +46,7 @@
                         const entry = document.createElement('div');
                         entry.appendChild(pageLabel);
                         entry.appendChild(copyButton);
+                        entry.classList.add('entry-container'); // Add class to the entry container
                         entriesContainer.appendChild(entry);
                     }
                 }
