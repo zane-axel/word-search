@@ -115,8 +115,6 @@
                 // Display red error message
                 const errorMessage = document.createElement('div');
                 errorMessage.textContent = 'Error: Output must have at least 20 lines.';
-                errorMessage.style.color = 'red';
-                errorMessage.classList.add('error-message');
                 container.insertBefore(errorMessage, pasteButton.nextSibling); // Insert error message after paste button
                 return; // Exit function without saving
             } else {
