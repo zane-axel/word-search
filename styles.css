@@ -32,6 +32,11 @@ body {
     z-index: 1;
 }
 
+.entriesContainer {
+            max-height: 650px; /* Adjust the maximum height as needed */
+            overflow-y: auto; /* Enable vertical scrollbar when content exceeds container height */
+}
+
 .entryContent {
     display: flex;
     align-items: center;
@@ -45,11 +50,6 @@ body {
 
 .copyButtonContainer {
     margin-left: 10px;
-}
-
-#entriesContainer {
-            max-height: 300px; /* Adjust the maximum height as needed */
-            overflow-y: auto; /* Enable vertical scrollbar when content exceeds container height */
 }
 
 .icon {
