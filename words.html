@@ -44,13 +44,9 @@
                 const pageLabel = document.createElement('div');
                 pageLabel.textContent = `Page ${i}`;
                 const entry = document.createElement('div');
+                entry.classList.add('entry-container'); // Add class to the entry container
                 entry.appendChild(pageLabel);
                 entry.appendChild(copyButton);
-                entry.style.display = 'flex'; // Use flexbox layout
-                entry.style.alignItems = 'center'; // Align items vertically
-                entry.style.justifyContent = 'space-between'; // Space between items
-                entry.style.marginBottom = '10px'; // Add margin bottom
-                copyButton.style.marginLeft = '10px'; // Add margin to the copy button
                 entriesContainer.appendChild(entry);
             }
         }
@@ -59,6 +55,7 @@
     // Display the output entries from local storage
     displayOutputEntries();
 });
+
     </script>
 </body>
 
