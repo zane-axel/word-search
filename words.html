@@ -30,7 +30,7 @@
             if (appendText && outputText) {
                 const copyButton = document.createElement('button');
                 copyButton.textContent = 'Copy';
-                copyButton.classList.add('submit-button', 'copy-button'); // Add classes to the copy button
+                copyButton.classList.add('submit-button'); // Add class to the copy button
                 copyButton.addEventListener('click', function () {
                     const combinedText = `${outputText}\n\n${appendText}`;
                     navigator.clipboard.writeText(combinedText)
@@ -44,9 +44,13 @@
                 const pageLabel = document.createElement('div');
                 pageLabel.textContent = `Page ${i}`;
                 const entry = document.createElement('div');
-                entry.classList.add('entry-container'); // Add class to the entry container
                 entry.appendChild(pageLabel);
                 entry.appendChild(copyButton);
+                entry.style.display = 'flex'; // Use flexbox layout
+                entry.style.alignItems = 'center'; // Align items vertically
+                entry.style.justifyContent = 'space-between'; // Space between items
+                entry.style.marginBottom = '10px'; // Add margin bottom
+                copyButton.style.marginLeft = '10px'; // Add margin to the copy button
                 entriesContainer.appendChild(entry);
             }
         }
@@ -55,6 +59,7 @@
     // Display the output entries from local storage
     displayOutputEntries();
 });
+
     </script>
 </body>
 
