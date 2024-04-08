@@ -32,6 +32,15 @@ body {
     z-index: 1;
 }
 
+.pageLabel {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.copyButtonContainer {
+    margin-left: 10px;
+}
+
 .icon {
     position: absolute;
     top: 10px;
