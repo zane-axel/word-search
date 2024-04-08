@@ -129,7 +129,8 @@
             const errorMessage = document.createElement('div');
             errorMessage.textContent = 'Error: Output must have at least 20 lines.';
             errorMessage.style.color = 'red';
-            container.insertBefore(errorMessage, pasteButton); // Insert error message before paste button
+            errorMessage.classList.add('error-message');
+            container.insertBefore(errorMessage, pasteButton.nextSibling); // Insert error message after paste button
             return; // Exit function without saving
         } else {
             // Remove any existing error message
@@ -145,10 +146,10 @@
         } else {
             console.log('Output is empty. Not saved to local storage.');
         }
-    } else {
+      } else {
         console.log('Toggle switch is not checked. Output not saved to local storage.');
-    }
-});
+      }
+     });
 
             function saveOutputToLocalStorage(outputText) {
                 let pageNumber;
