@@ -4,24 +4,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Page</title>
+    <title>Words List</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <div class="container">
-        <h1>Data Page</h1>
-        <div id="displayData"></div>
+        <h1>Words List</h1>
+        <div id="entriesContainer"></div>
     </div>
 
     <script>
-        // Retrieve data from localStorage and display it
-        const storedData = JSON.parse(localStorage.getItem("formData"));
-        if (storedData) {
-            const displayDataElement = document.getElementById("displayData");
-            const outputText = storedData.outputText;
-            displayDataElement.textContent = outputText;
-        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const entriesContainer = document.getElementById('entriesContainer');
+
+            // Function to display all output entries from local storage
+            function displayOutputEntries() {
+                entriesContainer.innerHTML = ''; // Clear previous entries
+                const maxPageNumber = localStorage.getItem('appendSerialNumber') || 1; // Update to appendSerialNumber
+                for (let i = 1; i <= maxPageNumber; i++) { // Update to appendSerialNumber
+                    const appendKey = `appendText_${i}`;
+                    const outputKey = `outputText_${i}`;
+                    const appendText = localStorage.getItem(appendKey);
+                    const outputText = localStorage.getItem(outputKey);
+                    if (appendText && outputText) {
+                        const copyButton = document.createElement('button');
+                        copyButton.textContent = 'Copy';
+                        copyButton.addEventListener('click', function () {
+                            const combinedText = `${outputText}\n\n${appendText}`;
+                            navigator.clipboard.writeText(combinedText)
+                                .then(() => {
+                                    console.log('Combined output copied to clipboard:', combinedText);
+                                })
+                                .catch(err => {
+                                    console.error('Failed to copy combined output to clipboard: ', err);
+                                });
+                        });
+                        const pageLabel = document.createElement('div');
+                        pageLabel.textContent = `Page ${i}`;
+                        const entry = document.createElement('div');
+                        entry.appendChild(pageLabel);
+                        entry.appendChild(copyButton);
+                        entriesContainer.appendChild(entry);
+                    }
+                }
+            }
+
+            // Display the output entries from local storage
+            displayOutputEntries();
+        });
     </script>
 </body>
 
