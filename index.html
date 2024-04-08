@@ -102,7 +102,7 @@
     });
 
     copyButton.addEventListener('click', function () {
-        if (!toggleSwitch.checked)
+        if (toggleSwitch.checked) {
             textarea.select();
             document.execCommand('copy');
             const outputText = textarea.value.trim(); // Trim whitespace
