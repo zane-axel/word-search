@@ -10,9 +10,17 @@
 
 <body>
     <div class="container">
-        <h1>Words List</h1>
-        <div id="entriesContainer"></div>
+    <h1>Words List</h1>
+    <div id="entriesContainer"></div>
+        <div id="entryContent">
+    <div class="pageLabel">Page ${i}</div>
+    <div class="copyButtonContainer">
+        <!-- Copy button will be placed here -->
     </div>
+</div>
+
+</div>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -41,17 +49,22 @@
                             console.error('Failed to copy combined output to clipboard: ', err);
                         });
                 });
+                
+                const entryContent = document.createElement('div');
+                entryContent.classList.add('entryContent');
+                
                 const pageLabel = document.createElement('div');
+                pageLabel.classList.add('pageLabel');
                 pageLabel.textContent = `Page ${i}`;
-                const entry = document.createElement('div');
-                entry.appendChild(pageLabel);
-                entry.appendChild(copyButton);
-                entry.style.display = 'flex'; // Use flexbox layout
-                entry.style.alignItems = 'center'; // Align items vertically
-                entry.style.justifyContent = 'space-between'; // Space between items
-                entry.style.marginBottom = '10px'; // Add margin bottom
-                copyButton.style.marginLeft = '10px'; // Add margin to the copy button
-                entriesContainer.appendChild(entry);
+
+                const copyButtonContainer = document.createElement('div');
+                copyButtonContainer.classList.add('copyButtonContainer');
+                copyButtonContainer.appendChild(copyButton);
+
+                entryContent.appendChild(pageLabel);
+                entryContent.appendChild(copyButtonContainer);
+                
+                entriesContainer.appendChild(entryContent);
             }
         }
     }
