@@ -30,7 +30,7 @@
             if (appendText && outputText) {
                 const copyButton = document.createElement('button');
                 copyButton.textContent = 'Copy';
-                copyButton.classList.add('submit-button'); // Add class to the copy button
+                copyButton.classList.add('submit-button', 'copy-button'); // Add classes to the copy button
                 copyButton.addEventListener('click', function () {
                     const combinedText = `${outputText}\n\n${appendText}`;
                     navigator.clipboard.writeText(combinedText)
@@ -55,7 +55,6 @@
     // Display the output entries from local storage
     displayOutputEntries();
 });
-
     </script>
 </body>
 
