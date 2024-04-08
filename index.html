@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -9,98 +10,174 @@
 
 <body>
     <div class="container">
-        
-      <a href="words.html" class="icon-link">
-    <div class="icon"></div>
-      </a>
+        <a href="words.html" class="icon-link">
+            <div class="icon"></div>
+        </a>
         <div class="toggle-switch">
-        <input type="checkbox" id="toggleSwitch">
-        <label for="toggleSwitch" class="toggle-label">
-            <div class="track"></div>
-            <div class="ball"></div>
-        </label>
+            <input type="checkbox" id="toggleSwitch">
+            <label for="toggleSwitch" class="toggle-label">
+                <div class="track"></div>
+                <div class="ball"></div>
+            </label>
         </div>
-        <h1>Word Search</h1>
+        <h1>Word Search Filter</h1>
+        <div id="wordEntries"></div> <!-- New div to display word entries -->
         <form id="myForm">
             <div id="input-fields">
                 <textarea id="inputTextarea" name="inputField1" rows="8" cols="30" placeholder="Enter your text here"></textarea>
             </div>
-            <button type="button" id="pasteButton" class="submit-button">Paste</button>
-           <button type="button" id="copyButton" class="submit-button">Copy</button>
             <div id="outputResult"></div>
+            <button type="button" id="pasteButton" class="submit-button">Paste</button>
+            <button type="button" id="copyButton" class="submit-button">Copy</button>
         </form>
+        <div class="toggle-switch">
+            <input type="checkbox" id="appendSwitch">
+            <label for="appendSwitch" class="toggle-label">
+                <div class="track"></div>
+                <div class="ball"></div>
+            </label>
+        </div>
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const textarea = document.getElementById('inputTextarea');
-        const pasteButton = document.getElementById('pasteButton');
-        const copyButton = document.getElementById('copyButton');
-        const outputResult = document.getElementById('outputResult');
-        const toggleSwitch = document.getElementById('toggleSwitch');
-        const track = document.querySelector('.track');
+        document.addEventListener('DOMContentLoaded', function () {
+            const textarea = document.getElementById('inputTextarea');
+            const pasteButton = document.getElementById('pasteButton');
+            const copyButton = document.getElementById('copyButton');
+            const outputResult = document.getElementById('outputResult');
+            const toggleSwitch = document.getElementById('toggleSwitch');
+            const appendSwitch = document.getElementById('appendSwitch');
+            const wordEntries = document.getElementById('wordEntries');
+            const track = document.querySelector('.track');
 
-    toggleSwitch.addEventListener('change', function() {
-        if (this.checked) {
-                const outputText = processInput(inputTextarea.value);
-                localStorage.setItem('outputText', outputText);
-            } else {
-                localStorage.removeItem('outputText');
-        }
-        
-        if (this.checked) {
-            track.style.backgroundColor = '#4bb543';
-        } else {
-            track.style.backgroundColor = 'gray';
-        }
-    });
-
-        pasteButton.addEventListener('click', function() {
-            navigator.clipboard.readText()
-                .then(text => {
-                    textarea.value = text;
-                    // Trigger the input event manually
-                    textarea.dispatchEvent(new Event('input'));
-                })
-                .catch(err => {
-                    console.error('Failed to read clipboard contents: ', err);
+            function clearOutputEntries() {
+                const keysToRemove = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key.startsWith('outputText_') || key.startsWith('appendText_')) {
+                        keysToRemove.push(key);
+                    }
+                }
+                keysToRemove.forEach(key => {
+                    localStorage.removeItem(key);
                 });
-        });
-
-        copyButton.addEventListener('click', function() {
-            textarea.select();
-            document.execCommand('copy');
-            console.log('Output copied to clipboard:', textarea.value);
-        });
-
-        textarea.addEventListener('input', function() {
-            let lines = textarea.value.split('\n');
-            let filteredLines = lines.map(line => line.replace(/^\s*\d+\.\s*/, '')) // Remove bullet points
-                                     .filter(line => line.length <= 13 && line.trim() !== '' && /^[a-zA-Z\s]*$/.test(line)); // Filter by length, remove empty lines, and special characters
-            // Convert lines to uppercase
-            filteredLines = filteredLines.map(line => line.toUpperCase());
-
-            // Limit output to a maximum of 20 lines
-            if (filteredLines.length > 20) {
-                filteredLines = filteredLines.slice(0, 20);
-                textarea.value = filteredLines.join('\n');
-            } else {
-                textarea.value = filteredLines.join('\n');
+                localStorage.setItem('outputEntriesCount', 0);
+                localStorage.setItem('pageNumber', 1);
+                localStorage.setItem('appendSerialNumber', 1);
+                updateWordEntriesCount(0);
             }
 
-            // Display the total number of text lines left
-            outputResult.textContent = `Total lines: ${filteredLines.length}`;
-        });
+            const toggleSwitchState = localStorage.getItem('toggleSwitchState');
+            if (toggleSwitchState === 'on') {
+                toggleSwitch.checked = true;
+                track.style.backgroundColor = '#4bb543';
+            } else {
+                toggleSwitch.checked = false;
+                track.style.backgroundColor = 'gray';
+                clearOutputEntries();
+            }
 
-        submitButton.addEventListener('click', function(event) {
-            event.preventDefault();
-            // Additional processing if needed
-            successMessage.style.display = 'block';
-            setTimeout(function() {
-                successMessage.style.display = 'none';
-            }, 3000); // Hide the success message after 3 seconds
+            toggleSwitch.addEventListener('change', function () {
+                if (this.checked) {
+                    track.style.backgroundColor = '#4bb543';
+                    localStorage.setItem('toggleSwitchState', 'on');
+                } else {
+                    track.style.backgroundColor = 'gray';
+                    localStorage.setItem('toggleSwitchState', 'off');
+                    clearOutputEntries();
+                }
+            });
+
+            pasteButton.addEventListener('click', function () {
+                navigator.clipboard.readText()
+                    .then(text => {
+                        textarea.value = text;
+                        textarea.dispatchEvent(new Event('input'));
+                    })
+                    .catch(err => {
+                        console.error('Failed to read clipboard contents: ', err);
+                    });
+            });
+
+            copyButton.addEventListener('click', function () {
+                if (toggleSwitch.checked) {
+                    textarea.select();
+                    document.execCommand('copy');
+                    const outputText = textarea.value;
+                    saveOutputToLocalStorage(outputText);
+                    console.log('Output copied to clipboard:', outputText);
+                } else {
+                    console.log('Toggle switch is not checked. Output not saved to local storage.');
+                }
+            });
+
+            function saveOutputToLocalStorage(outputText) {
+                let pageNumber;
+                let outputEntriesCount;
+                
+                if (appendSwitch.checked) {
+                    let serialNumber = parseInt(localStorage.getItem('appendSerialNumber')) || 1;
+                    const appendKey = `appendText_${serialNumber}`;
+                    let appendEntry = localStorage.getItem(appendKey) || '';
+                    appendEntry += (appendEntry ? '\n' : '') + outputText;
+                    localStorage.setItem(appendKey, appendEntry);
+                    serialNumber++;
+                    localStorage.setItem('appendSerialNumber', serialNumber);
+                    outputEntriesCount = parseInt(localStorage.getItem('outputEntriesCount')) || 0;
+                    pageNumber = parseInt(localStorage.getItem('pageNumber')) || 1;
+                } else {
+                    pageNumber = parseInt(localStorage.getItem('pageNumber')) || 1;
+                    localStorage.setItem(`outputText_${pageNumber}`, outputText);
+                    outputEntriesCount = parseInt(localStorage.getItem('outputEntriesCount')) || 0;
+                    pageNumber++;
+                    localStorage.setItem('pageNumber', pageNumber);
+                }
+
+                outputEntriesCount++;
+                localStorage.setItem('outputEntriesCount', outputEntriesCount);
+
+                updateWordEntriesCount(outputEntriesCount, pageNumber);
+            }
+
+            function updateWordEntriesCount(count, pageNumber) {
+                let serialNumber;
+                if (appendSwitch.checked) {
+                    serialNumber = parseInt(localStorage.getItem('appendSerialNumber')) || 1;
+                    wordEntries.textContent = `${pageNumber - 1}/${serialNumber - 1}`;
+                } else {
+                    serialNumber = pageNumber - 1 || 0;
+                    wordEntries.textContent = `${serialNumber}`;
+                }
+            }
+
+            textarea.addEventListener('input', function () {
+                let lines = textarea.value.split('\n');
+                let filteredLines = lines.map(line => line.replace(/^\s*\d+\.\s*/, ''))
+                    .filter(line => line.length <= 13 && line.trim() !== '' && /^[a-zA-Z\s]*$/.test(line));
+                filteredLines = filteredLines.map(line => line.toUpperCase());
+
+                if (filteredLines.length > 20) {
+                    filteredLines = filteredLines.slice(0, 20);
+                    textarea.value = filteredLines.join('\n');
+                } else {
+                    textarea.value = filteredLines.join('\n');
+                }
+
+                outputResult.textContent = `Total lines: ${filteredLines.length}`;
+            });
+
+            submitButton.addEventListener('click', function (event) {
+                event.preventDefault();
+                successMessage.style.display = 'block';
+                setTimeout(function () {
+                    successMessage.style.display = 'none';
+                }, 3000);
+            });
+
+            const outputEntriesCount = localStorage.getItem('outputEntriesCount') || 0;
+            const pageNumber = parseInt(localStorage.getItem('pageNumber')) || 1;
+            updateWordEntriesCount(outputEntriesCount, pageNumber);
         });
-    });
     </script>
 </body>
 
