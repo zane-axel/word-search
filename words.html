@@ -16,45 +16,47 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const entriesContainer = document.getElementById('entriesContainer');
+    const entriesContainer = document.getElementById('entriesContainer');
 
-            // Function to display all output entries from local storage
-            function displayOutputEntries() {
-                entriesContainer.innerHTML = ''; // Clear previous entries
-                const maxPageNumber = localStorage.getItem('appendSerialNumber') || 1; // Update to appendSerialNumber
-                for (let i = 1; i <= maxPageNumber; i++) { // Update to appendSerialNumber
-                    const appendKey = `appendText_${i}`;
-                    const outputKey = `outputText_${i}`;
-                    const appendText = localStorage.getItem(appendKey);
-                    const outputText = localStorage.getItem(outputKey);
-                    if (appendText && outputText) {
-                        const copyButton = document.createElement('button');
-                        copyButton.textContent = 'Copy';
-                        copyButton.classList.add('submit-button'); // Add class to the copy button
-                        copyButton.addEventListener('click', function () {
-                            const combinedText = `${outputText}\n\n${appendText}`;
-                            navigator.clipboard.writeText(combinedText)
-                                .then(() => {
-                                    console.log('Combined output copied to clipboard:', combinedText);
-                                })
-                                .catch(err => {
-                                    console.error('Failed to copy combined output to clipboard: ', err);
-                                });
+    // Function to display all output entries from local storage
+    function displayOutputEntries() {
+        entriesContainer.innerHTML = ''; // Clear previous entries
+        const maxPageNumber = localStorage.getItem('appendSerialNumber') || 1; // Update to appendSerialNumber
+        for (let i = 1; i <= maxPageNumber; i++) { // Update to appendSerialNumber
+            const appendKey = `appendText_${i}`;
+            const outputKey = `outputText_${i}`;
+            const appendText = localStorage.getItem(appendKey);
+            const outputText = localStorage.getItem(outputKey);
+            if (appendText && outputText) {
+                const copyButton = document.createElement('button');
+                copyButton.textContent = 'Copy';
+                copyButton.classList.add('submit-button'); // Add class to the copy button
+                copyButton.addEventListener('click', function () {
+                    const combinedText = `${outputText}\n\n${appendText}`;
+                    navigator.clipboard.writeText(combinedText)
+                        .then(() => {
+                            console.log('Combined output copied to clipboard:', combinedText);
+                        })
+                        .catch(err => {
+                            console.error('Failed to copy combined output to clipboard: ', err);
                         });
-                        const pageLabel = document.createElement('div');
-                        pageLabel.textContent = `Page ${i}`;
-                        const entry = document.createElement('div');
-                        entry.appendChild(pageLabel);
-                        entry.appendChild(copyButton);
-                        entry.classList.add('entry-container'); // Add class to the entry container
-                        entriesContainer.appendChild(entry);
-                    }
-                }
+                });
+                const pageLabel = document.createElement('div');
+                pageLabel.textContent = `Page ${i}`;
+                const entry = document.createElement('div');
+                entry.appendChild(pageLabel);
+                entry.appendChild(copyButton);
+                entry.style.display = 'flex'; // Use flexbox layout
+                entry.style.alignItems = 'center'; // Align items vertically
+                copyButton.style.marginLeft = '10px'; // Add margin to the copy button
+                entriesContainer.appendChild(entry);
             }
+        }
+    }
 
-            // Display the output entries from local storage
-            displayOutputEntries();
-        });
+    // Display the output entries from local storage
+    displayOutputEntries();
+});
     </script>
 </body>
 
