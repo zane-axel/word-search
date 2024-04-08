@@ -41,7 +41,7 @@
     </div>
 
     <script>
-         document.addEventListener('DOMContentLoaded', function () {
+                     document.addEventListener('DOMContentLoaded', function () {
     const textarea = document.getElementById('inputTextarea');
     const pasteButton = document.getElementById('pasteButton');
     const copyButton = document.getElementById('copyButton');
@@ -50,7 +50,7 @@
     const appendSwitch = document.getElementById('appendSwitch');
     const wordEntries = document.getElementById('wordEntries');
     const track = document.querySelector('.track');
-    const errorMessage = document.getElementById('errorMessage'); // New error message container
+    const container = document.querySelector('.container'); // Add container reference
 
     function clearOutputEntries() {
         const keysToRemove = [];
@@ -106,13 +106,30 @@
             textarea.select();
             document.execCommand('copy');
             const outputText = textarea.value.trim(); // Trim whitespace
-            if (outputText !== '') { // Check if output text is not empty
-                if (outputText.split('\n').length <= 20) { // Check if output lines are less than or equal to 20
-                    saveOutputToLocalStorage(outputText);
-                    console.log('Output copied to clipboard:', outputText);
-                } else {
-                    errorMessage.textContent = 'Error: Output exceeds 20 lines';
+            
+            // Count number of lines
+            const numLines = outputText.split('\n').filter(line => line.trim() !== '').length;
+
+            if (numLines < 20) { // Check if number of lines is less than 20
+                console.log('Output has less than 20 lines. Not saved to local storage.');
+                // Display red error message
+                const errorMessage = document.createElement('div');
+                errorMessage.textContent = 'Error: Output must have at least 20 lines.';
+                errorMessage.style.color = 'red';
+                errorMessage.classList.add('error-message');
+                container.insertBefore(errorMessage, pasteButton.nextSibling); // Insert error message after paste button
+                return; // Exit function without saving
+            } else {
+                // Remove any existing error message
+                const existingErrorMessage = container.querySelector('.error-message');
+                if (existingErrorMessage) {
+                    existingErrorMessage.remove();
                 }
+            }
+
+            if (outputText !== '') { // Check if output text is not empty
+                saveOutputToLocalStorage(outputText);
+                console.log('Output copied to clipboard and saved to local storage:', outputText);
             } else {
                 console.log('Output is empty. Not saved to local storage.');
             }
@@ -124,7 +141,7 @@
     function saveOutputToLocalStorage(outputText) {
         let pageNumber;
         let outputEntriesCount;
-
+        
         if (appendSwitch.checked) {
             let serialNumber = parseInt(localStorage.getItem('appendSerialNumber')) || 1;
             const appendKey = `appendText_${serialNumber}`;
@@ -176,18 +193,11 @@
         outputResult.textContent = `Total lines: ${filteredLines.length}`;
     });
 
-    submitButton.addEventListener('click', function (event) {
-        event.preventDefault();
-        successMessage.style.display = 'block';
-        setTimeout(function () {
-            successMessage.style.display = 'none';
-        }, 3000);
-    });
-
     const outputEntriesCount = localStorage.getItem('outputEntriesCount') || 0;
     const pageNumber = parseInt(localStorage.getItem('pageNumber')) || 1;
     updateWordEntriesCount(outputEntriesCount, pageNumber);
 });
+
     </script>
 </body>
 
