@@ -102,24 +102,7 @@
     });
 
     copyButton.addEventListener('click', function () {
-        if (!toggleSwitch.checked) {
-        console.log('Toggle switch is not checked. Output not saved to local storage.');
-        // Display red error message
-        const errorMessage = document.createElement('div');
-        errorMessage.textContent = 'Error: Toggle switch is off. Output not saved to local storage.';
-        errorMessage.style.color = 'red';
-        errorMessage.classList.add('error-message');
-
-        const existingErrorMessage = container.querySelector('.error-message');
-        if (existingErrorMessage) {
-            existingErrorMessage.remove();
-        }
-
-        const inputFields = document.getElementById('input-fields');
-        inputFields.appendChild(errorMessage);
-        return; // Exit function without saving
-    }
-        
+        if (!toggleSwitch.checked)
             textarea.select();
             document.execCommand('copy');
             const outputText = textarea.value.trim(); // Trim whitespace
